@@ -1,11 +1,7 @@
 import time
 import random
+import matplotlib.pyplot as plt
 def bubble_sort(arr):
-    """
-    Bubble Sort algorithm to  sort a list in ascending order.
-    :param arr: List of numbers
-    :return: Sorted list
-    """
     n = len(arr)
     for i in range(n - 1):
         swapped = False
@@ -16,13 +12,7 @@ def bubble_sort(arr):
         if not swapped:
             break
 
-
 def selection_sort(arr):
-    """
-    Selection Sort algorithm to sort a list in ascending order.
-    :param arr: List of numbers
-    :return: Sorted list
-    """
     n = len(arr)
     for i in range(n):
         min_index = i
@@ -31,25 +21,84 @@ def selection_sort(arr):
                 min_index = j
         arr[i], arr[min_index] = arr[min_index], arr[i]
 
+def insertion_sort(arr):
+    n = len(arr)
+    for i in range(1, n):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
 
+def radix_sort(arr):
+    max_num = int(max(arr))
+    exp = 1
+    while max_num // exp > 0:
+        counting_sort_by_digit(arr, exp)
+        exp *= 10
+
+def counting_sort_by_digit(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+
+    for i in range(n):
+        index = int(arr[i]) // exp
+        count[index % 10] += 1
+
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    i = n - 1
+    while i >= 0:
+        index = int(arr[i]) // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+
+    for i in range(n):
+        arr[i] = output[i]
+def linear_search(arr, x):
+    for i in range(len(arr)):
+        if arr[i] == x:
+            return i
+    return -1
 def test_sorting_algorithms():
-    sizes = [50, 1000]
+    sizes = [50, 100, 200]
+    algorithms = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Radix Sort']
+    results = {algo: [] for algo in algorithms}
+
     for size in sizes:
-        arr1 = [random.uniform(0.1, 100.0) for _ in range(size)]
-        arr2 = list(arr1)
+        arr = [random.uniform(0.1, 100.0) for _ in range(size)]
+        copies = {algo: list(arr) for algo in algorithms}
 
-        start_time = time.time()
-        bubble_sort(arr1)
-        bubble_time = time.time() - start_time
+        start = time.time()
+        bubble_sort(copies['Bubble Sort'])
+        results['Bubble Sort'].append(time.time() - start)
 
-        start_time = time.time()
-        selection_sort(arr2)
-        selection_time = time.time() - start_time
+        start = time.time()
+        selection_sort(copies['Selection Sort'])
+        results['Selection Sort'].append(time.time() - start)
 
-        print(f"Warehouse Size: {size} Products")
-        print(f"Bubble Sort Time: {bubble_time:.6f} seconds")
-        print(f"Selection Sort Time: {selection_time:.6f} seconds")
-        print("-" * 40)
+        start = time.time()
+        insertion_sort(copies['Insertion Sort'])
+        results['Insertion Sort'].append(time.time() - start)
 
+        start = time.time()
+        radix_sort(copies['Radix Sort'])
+        results['Radix Sort'].append(time.time() - start)
 
-test_sorting_algorithms()
+    return sizes, results
+
+sizes, results = test_sorting_algorithms()
+plt.figure(figsize=(10, 6))
+for algo, times in results.items():
+    plt.plot(sizes, times, marker='o', label=algo)
+plt.title('Sorting Algorithms Execution Time Comparison')
+plt.xlabel('Input Size')
+plt.ylabel('Execution Time (seconds)')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
