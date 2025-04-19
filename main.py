@@ -59,23 +59,7 @@ def counting_sort_by_digit(arr, exp):
 
     for i in range(n):
         arr[i] = output[i]
-def linear_search(arr, x):
-    for i in range(len(arr)):
-        if arr[i] == x:
-            return i
-    return -1
-def binary_search(arr, x):
-    low = 0
-    high = len(arr) - 1
-    while low <= high:
-        mid = (low + high) // 2
-        if arr[mid] == x:
-            return mid
-        elif arr[mid] < x:
-            low = mid + 1
-        else:
-            high = mid - 1
-    return -1
+
 def test_sorting_algorithms():
     sizes = [50, 100, 200]
     algorithms = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Radix Sort']
