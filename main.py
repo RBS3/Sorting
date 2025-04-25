@@ -41,16 +41,11 @@ def insertion_sort(arr):
 
 # Merge Sort
 def mergeSort(array):
-    # Base case: if the array has 1 or no elements, it's already sorted
     if len(array) <= 1:
         return array
-
-    # Divide the array into two halves
     mid = len(array) // 2
     left = mergeSort(array[:mid])
     right = mergeSort(array[mid:])
-
-    # Merge the sorted halves
     return merge(left, right)
 
 
