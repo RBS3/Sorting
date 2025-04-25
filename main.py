@@ -39,15 +39,14 @@ def insertion_sort(arr):
         arr[j + 1] = key
 
 
-# Merge Sort
+# Merge Sort (as requested)
 def mergeSort(array):
     if len(array) <= 1:
         return array
     mid = len(array) // 2
-    left = mergeSort(array[:mid])
-    right = mergeSort(array[mid:])
+    left = mergeSort(array[:mid])  
+    right = mergeSort(array[mid:])  
     return merge(left, right)
-
 
 def merge(left, right):
     result = []
@@ -61,7 +60,6 @@ def merge(left, right):
             j += 1
     result.extend(left[i:])
     result.extend(right[j:])
-
     return result
 
 
@@ -96,9 +94,16 @@ def counting_sort_by_digit(arr, exp):
     for i in range(n):
         arr[i] = output[i]
 
+
+# Python's built-in sort
+def python_sort(arr):
+    return sorted(arr)
+
+
+# Testing the sorting algorithms and plotting results
 def test_sorting_algorithms():
     sizes = [50, 100, 200]
-    algorithms = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Radix Sort']
+    algorithms = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Radix Sort', 'Python Sort']
     results = {algo: [] for algo in algorithms}
 
     for size in sizes:
@@ -125,11 +130,13 @@ def test_sorting_algorithms():
         radix_sort(copies['Radix Sort'])
         results['Radix Sort'].append(time.time() - start)
 
+        start = time.time()
+        python_sort(copies['Python Sort'])
+        results['Python Sort'].append(time.time() - start)
+
     return sizes, results
 
-
 sizes, results = test_sorting_algorithms()
-
 plt.figure(figsize=(10, 6))
 for algo, times in results.items():
     plt.plot(sizes, times, marker='o', label=algo)
@@ -141,6 +148,7 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
 #bubble sort and selection sort are very slow but selection is still better
 #the insertion sort is better tha, bubble and selection but not good for large inputs
 #merge sort is faster than all of them
