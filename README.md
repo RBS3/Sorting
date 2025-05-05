@@ -1,1 +1,1 @@
-implementing Merge Sort, Bubble Sort, Radix Sort, Insertion Sort, Selection Sort, and Python’s built-in sort() method. You will visualize the performance using Matplotlib to understand the time complexity differences.
+implementing Merge Sort, Bubble Sort, Radix Sort, Insertion Sort, Selection Sort, Quick sort and Python’s built-in sort() method. You will visualize the performance using Matplotlib to understand the time complexity differences.
