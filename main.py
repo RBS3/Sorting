@@ -2,7 +2,6 @@ import time
 import random
 import matplotlib.pyplot as plt
 
-
 # Bubble Sort
 def bubble_sort(arr):
     n = len(arr)
@@ -15,7 +14,6 @@ def bubble_sort(arr):
         if not swapped:
             break
 
-
 # Selection Sort
 def selection_sort(arr):
     n = len(arr)
@@ -25,7 +23,6 @@ def selection_sort(arr):
             if arr[j] < arr[min_index]:
                 min_index = j
         arr[i], arr[min_index] = arr[min_index], arr[i]
-
 
 # Insertion Sort
 def insertion_sort(arr):
@@ -38,14 +35,13 @@ def insertion_sort(arr):
             j -= 1
         arr[j + 1] = key
 
-
-# Merge Sort (as requested)
+# Merge Sort
 def mergeSort(array):
     if len(array) <= 1:
         return array
     mid = len(array) // 2
-    left = mergeSort(array[:mid])  
-    right = mergeSort(array[mid:])  
+    left = mergeSort(array[:mid])
+    right = mergeSort(array[mid:])
     return merge(left, right)
 
 def merge(left, right):
@@ -62,6 +58,25 @@ def merge(left, right):
     result.extend(right[j:])
     return result
 
+# Quick Sort
+def quick_sort(arr):
+    def _quick_sort(items, low, high):
+        if low < high:
+            pivot_index = partition(items, low, high)
+            _quick_sort(items, low, pivot_index - 1)
+            _quick_sort(items, pivot_index + 1, high)
+
+    def partition(items, low, high):
+        pivot = items[high]
+        i = low - 1
+        for j in range(low, high):
+            if items[j] <= pivot:
+                i += 1
+                items[i], items[j] = items[j], items[i]
+        items[i + 1], items[high] = items[high], items[i + 1]
+        return i + 1
+
+    _quick_sort(arr, 0, len(arr) - 1)
 
 # Radix Sort
 def radix_sort(arr):
@@ -70,7 +85,6 @@ def radix_sort(arr):
     while max_num // exp > 0:
         counting_sort_by_digit(arr, exp)
         exp *= 10
-
 
 def counting_sort_by_digit(arr, exp):
     n = len(arr)
@@ -94,16 +108,14 @@ def counting_sort_by_digit(arr, exp):
     for i in range(n):
         arr[i] = output[i]
 
-
 # Python's built-in sort
 def python_sort(arr):
     return sorted(arr)
 
-
 # Testing the sorting algorithms and plotting results
 def test_sorting_algorithms():
     sizes = [50, 100, 200]
-    algorithms = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Radix Sort', 'Python Sort']
+    algorithms = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Quick Sort', 'Radix Sort', 'Python Sort']
     results = {algo: [] for algo in algorithms}
 
     for size in sizes:
@@ -125,6 +137,10 @@ def test_sorting_algorithms():
         start = time.time()
         mergeSort(copies['Merge Sort'])
         results['Merge Sort'].append(time.time() - start)
+
+        start = time.time()
+        quick_sort(copies['Quick Sort'])
+        results['Quick Sort'].append(time.time() - start)
 
         start = time.time()
         radix_sort(copies['Radix Sort'])
@@ -149,6 +165,7 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-#bubble sort and selection sort are very slow but selection is still better
-#the insertion sort is better tha, bubble and selection but not good for large inputs
-#merge sort is faster than all of them
+# bubble sort and selection sort are very slow, but selection is still slightly better
+# insertion sort is better than both but not efficient for large input sizes
+# merge sort is faster and efficient for large datasets
+# quick sort is also very fast and often outperforms merge sort in practice for average cases
